@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+
+import Census from "./components/Census";
+//import "./styles.css";
+import { useState, useEffect } from "react";
+import { getPopulation } from "./services/PopulationApi";
+
 
 function App() {
+  const [population, setPopulation] = useState([]);
+  //const [population, setPopulation] = useState();
+
+
+  console.log("fetching data...");
+  console.log(population)
+
+ 
+
+  //calling the data when the component renders
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getPopulation();
+      console.log(data);
+      setPopulation(data.data);
+      console.log(data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <Census getPopulation={getPopulation} population={population} /> */}
+      {population && population.length &&<Census getPopulation={getPopulation} population={population} />}
     </div>
   );
 }
-
 export default App;
